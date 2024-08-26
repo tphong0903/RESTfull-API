@@ -1,0 +1,27 @@
+
+
+services:
+  api-service:
+    container_name: api-container-1
+    #Build tu source code khong can  build file jar
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+    image: api-image-sample
+    environment:
+      API_TITLE: API DOC DEV
+    ports:
+      - '8080:80'
+    networks:
+      - backend
+  api-service-test:
+    container_name: api-container-2
+    #build jar thanh image
+    image: api-image-sample
+    ports:
+      - '8081:80'
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

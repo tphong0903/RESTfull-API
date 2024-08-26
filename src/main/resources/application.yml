@@ -1,3 +1,6 @@
+server:
+  port: 80
 spring:
   profiles:
-    active: dev
+#    active: @sping.profile.active@ # để chọn profile để buile
+     active: dev # mặc định là dev
