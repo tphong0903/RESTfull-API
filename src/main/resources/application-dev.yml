@@ -3,6 +3,17 @@ spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/tayjavadb}
+    username: root
+    password: 09032004
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show_sql: false
+    hibernate:
+      ddl-auto: none
 
 springdoc:
   api-docs:
@@ -15,4 +26,9 @@ openapi:
     server: http://localhost:${server.port}
     title: ${API_TITLE:DUMMY-API-TITLE}
     version: 1.0.0
+jwt:
+  expiryHour: 24
+  expiryDay: 14
+  secretKey: eRNB1CuEy2KiyVRrz+iExg+VhNBLiFOkHMFIIQdFAnQ=
+  secretRefreshKey: HRrB+AbcajeIiQNCHNHEKRqBjMBTqFvBfOkXpTwfBg4=
 

@@ -1,21 +1,20 @@
 package org.example.restfulapi.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.util.Arrays;
 import java.util.Date;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class, IllegalArgumentException.class,PropertyReferenceException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerValidationException(Exception e, WebRequest request){
         ErrorResponse errorResponse = new ErrorResponse();
@@ -29,7 +28,7 @@ public class GlobalExceptionHandler {
             message = message.substring(start+1,end-1);
             errorResponse.setError("Payload Invalid");
         }
-        else if(e instanceof ConstraintViolationException){
+        else if(e instanceof ConstraintViolationException || e instanceof IllegalArgumentException || e instanceof PropertyReferenceException ){
             message = message.substring(message.indexOf(" ")+1);
             errorResponse.setError("PathVariable Invalid");
 

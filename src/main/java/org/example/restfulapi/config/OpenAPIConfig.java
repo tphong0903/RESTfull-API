@@ -1,8 +1,11 @@
 package org.example.restfulapi.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 
@@ -27,17 +30,18 @@ public class OpenAPIConfig {
                         .description("API documents")
                         .version(version)
                         .license(new License().name("Apache 2.0").url("https://springdoc.org")));
+                //  Authorize tren Swagger
+//                        .components(
+//                                new Components()
+//                                        .addSecuritySchemes(
+//                                                "bearerAuth",
+//                                                new SecurityScheme()
+//                                                        .type(SecurityScheme.Type.HTTP)
+//                                                        .scheme("bearer")
+//                                                        .bearerFormat("JWT")))
+//                        .security(List.of(new SecurityRequirement().addList("bearerAuth")));
     }
-//  Authorize tren Swagger
-//                                            .components(
-//                                                    new Components()
-//                                                            .addSecuritySchemes(
-//                                                                    "bearerAuth",
-//                                                                    new SecurityScheme()
-//                                                                            .type(SecurityScheme.Type.HTTP)
-//                                                                            .scheme("bearer")
-//                                                                            .bearerFormat("JWT")))
-//                                            .security(List.of(new SecurityRequirement().addList("bearerAuth")));
+
 
     @Bean
     public GroupedOpenApi publicApi(@Value("${openapi.service.api-docs}") String apiDocs) {
@@ -46,5 +50,6 @@ public class OpenAPIConfig {
                 .packagesToScan("org.example.restfulapi.controller")
                 .build();
     }
+
 
 }

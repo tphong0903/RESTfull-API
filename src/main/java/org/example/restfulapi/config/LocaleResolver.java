@@ -23,7 +23,6 @@ public class LocaleResolver extends AcceptHeaderLocaleResolver implements WebMvc
                 ? Locale.US
                 : Locale.lookup(Locale.LanguageRange.parse(languageHeader), LOCALES);
     }
-
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource rs = new ResourceBundleMessageSource();
