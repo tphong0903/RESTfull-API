@@ -4,85 +4,63 @@ package org.example.restfulapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-import org.example.restfulapi.util.EnumPattern;
-import org.example.restfulapi.util.PhoneNumber;
-import org.example.restfulapi.util.UserStatus;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.example.restfulapi.util.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import static org.example.restfulapi.util.Gender.*;
+
+@Getter
+@Setter
 public class UserRequestDTO implements Serializable {
-    @NotBlank(message = "firstName must be not blank")
-    private String fisrtName;
-    @NotNull(message = "lastName must be not null")
+
+    @NotBlank(message = "firstName must be not blank") // Khong cho phep gia tri blank
+    private String firstName;
+
+    @NotNull(message = "lastName must be not null") // Khong cho phep gia tri null
     private String lastName;
-    @PhoneNumber
-    private String phone;
-    @Email(message = "Email invalid format")
+
+    @Email(message = "email invalid format") // Chi chap nhan nhung gia tri dung dinh dang email
     private String email;
+
+    //@Pattern(regexp = "^\\d{10}$", message = "phone invalid format")
+    @PhoneNumber(message = "phone invalid format")
+    private String phone;
+
     @NotNull(message = "dateOfBirth must be not null")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date dateOfBirth;
 
-    @EnumPattern(name = "status",regexp = "ACTIVE|INACTIVE|NONE")
+    //@Pattern(regexp = "^male|female|other$", message = "gender must be one in {male, female, other}")
+    @GenderSubset(anyOf = {MALE, FEMALE, OTHER})
+    private Gender gender;
+
+    @NotNull(message = "username must be not null")
+    private String username;
+
+    private String password;
+
+    @NotNull(message = "type must be not null")
+    @EnumValue(name = "type", enumClass = UserType.class)
+    private String type;
+
+    @NotEmpty(message = "addresses can not empty")
+    private Set<AddressDTO> addresses;
+
+    @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
     private UserStatus status;
 
-    public UserRequestDTO() {
-    }
-    public UserRequestDTO(String fisrtName, String lastName, String phone, String email) {
-        this.fisrtName = fisrtName;
+    public UserRequestDTO(String firstName, String lastName, String email, String phone) {
+        this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
         this.email = email;
-    }
-
-    public String getFisrtName() {
-        return fisrtName;
-    }
-
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 }
